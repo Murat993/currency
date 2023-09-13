@@ -10,10 +10,9 @@ services:
       - .:/var/www
     depends_on:
       - php
-      - rabbitmq
-      - rabbit-worker
 
   php:
+    user: www-data
     build:
       context: docker
       dockerfile: php-fpm/Dockerfile
@@ -21,7 +20,6 @@ services:
       - .:/var/www
     depends_on:
       - rabbitmq
-      - rabbit-worker
 
   rabbitmq:
       image: "rabbitmq:3-management"
@@ -37,5 +35,5 @@ services:
       volumes:
           - .:/var/www
       depends_on:
-          - rabbitmq
+          - php
 
