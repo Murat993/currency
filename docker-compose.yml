@@ -12,7 +12,6 @@ services:
       - php
 
   php:
-    user: www-data
     build:
       context: docker
       dockerfile: php-fpm/Dockerfile
@@ -31,7 +30,7 @@ services:
       build:
           context: docker
           dockerfile: php-fpm/Dockerfile
-      command: sh -c "php /var/www/artisan cbr:worker"
+      command: sh -c "until [ -f .ready ] ; do sleep 1 ; done && php /var/www/artisan cbr:worker"
       volumes:
           - .:/var/www
       depends_on:
