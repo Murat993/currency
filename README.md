@@ -6,6 +6,7 @@ $ make init
 ```
 ```bash
 # Запуск cbr сравнения с предыдущим днем
+# Возможно нужны будут права для папки storage
 URL: GET http://localhost/api/currency/rate 
 BODY {
    "date": "2023-09-13",

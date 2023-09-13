@@ -11,6 +11,7 @@ services:
     depends_on:
       - php
       - rabbitmq
+      - rabbit-worker
 
   php:
     build:
@@ -20,6 +21,7 @@ services:
       - .:/var/www
     depends_on:
       - rabbitmq
+      - rabbit-worker
 
   rabbitmq:
       image: "rabbitmq:3-management"
