@@ -1,0 +1,38 @@
+version: "3.7"
+services:
+  app:
+    build:
+      context: docker
+      dockerfile: nginx/Dockerfile
+    ports:
+      - "80:80"
+    volumes:
+      - .:/var/www
+    depends_on:
+      - php
+
+  php:
+    build:
+      context: docker
+      dockerfile: php-fpm/Dockerfile
+    volumes:
+      - .:/var/www
+    depends_on:
+      - rabbitmq
+
+  rabbitmq:
+      image: "rabbitmq:3-management"
+      ports:
+          - "5672:5672"
+          - "15672:15672"
+
+  rabbit-worker:
+      build:
+          context: docker
+          dockerfile: php-fpm/Dockerfile
+      command: sh -c "until [ -f .ready ] ; do sleep 1 ; done && php /var/www/artisan cbr:worker"
+      volumes:
+          - .:/var/www
+      depends_on:
+          - php
+
